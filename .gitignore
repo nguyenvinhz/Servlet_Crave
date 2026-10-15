@@ -1,0 +1,17 @@
+target/
+backend/target/
+.idea/
+.vscode/
+*.iml
+.env
+*.log
+node_modules/
+.runtime/
+.payos.compose.json
+.deploy-backups/
+.deploy.lock
+__pycache__/
+*.pyc
+
+# Maven bundle
+apache-maven-3.9.6/

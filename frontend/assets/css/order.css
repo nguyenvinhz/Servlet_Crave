@@ -1,0 +1,677 @@
+/* ============================================================
+   Order & Payment Module — Warm customer palette
+   Dùng cho: checkout, orders, order-detail, admin-orders
+   Kế thừa --accent, --accent-dark từ styles.css
+   ============================================================ */
+
+/* --- Shared customer colors with standalone fallbacks --- */
+.order-page {
+    --bg: var(--paper, #fffaf5);
+    --bg-card: var(--surface, #ffffff);
+    --bg-card-alt: var(--cream, #fff2e8);
+    --bg-input: var(--surface, #ffffff);
+    --text: var(--ink, #29241f);
+    --text-muted: var(--muted, #6b6057);
+    --border: var(--line, #e7ddd3);
+    --border-focus: var(--accent, #c94b24);
+}
+
+/* --- Page surface; shared header and footer keep their own palette --- */
+.order-theme {
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* --- Shared cards --- */
+.order-page .card {
+    background: var(--bg-card);
+    border-color: var(--border);
+    color: var(--text);
+    box-shadow: none;
+}
+
+.order-page .card h2,
+.order-page .card h3 {
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', 'Nunito', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+/* --- Inputs and selects --- */
+.order-page input,
+.order-page textarea,
+.order-page select {
+    width: 100%;
+    padding: 0.85rem 0.95rem;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg-input);
+    color: var(--text);
+    font: inherit;
+}
+
+.order-page input::placeholder,
+.order-page textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.order-page input:focus,
+.order-page textarea:focus,
+.order-page select:focus {
+    border-color: var(--border-focus);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(201, 75, 36, 0.16);
+}
+
+.order-page label {
+    display: block;
+    margin: 1rem 0 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+/* --- Nút CTA (cam) --- */
+.order-page .btn-primary {
+    display: block;
+    width: 100%;
+    margin-top: 1.25rem;
+    padding: 0.9rem 1.25rem;
+    border: 0;
+    border-radius: 10px;
+    background: var(--accent, #c94b24);
+    color: #fff;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.order-page .btn-primary:hover {
+    background: var(--accent-dark, #aa3918);
+}
+
+/* ============================================================
+   CHECKOUT — Layout 2 cột
+   ============================================================ */
+.checkout-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.checkout-left h1 {
+    margin: 0 0 0.5rem;
+    font-family: 'Plus Jakarta Sans', 'Nunito', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    color: var(--text);
+}
+
+.checkout-section {
+    margin-top: 2rem;
+}
+
+.checkout-section h2 {
+    margin: 0 0 1rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+/* Radio group cho Payment method */
+.radio-group {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin: 0;
+    padding: 0.7rem 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.15s;
+}
+
+.radio-group label:hover {
+    background: var(--bg-card-alt);
+}
+
+.radio-group input[type="radio"] {
+    width: 1rem;
+    height: 1rem;
+    margin: 0;
+    accent-color: var(--accent);
+}
+
+/* Order summary card (cột phải checkout) */
+.order-summary {
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border-radius: 16px;
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border);
+}
+
+.order-summary h2 {
+    margin: 0 0 1rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    font-size: 0.95rem;
+}
+
+.summary-row.total {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+/* ============================================================
+   ORDERS LIST — Card danh sách đơn hàng
+   ============================================================ */
+.orders-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.order-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-radius: 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    transition: border-color 0.15s;
+}
+
+.order-card:hover {
+    border-color: var(--accent);
+}
+
+.order-card-info h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.order-card-info p {
+    margin: 0.2rem 0 0;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.order-card-right {
+    text-align: right;
+}
+
+.order-card-right .price {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.order-status-badge {
+    display: inline-block;
+    margin-top: 0.3rem;
+    padding: 0.2rem 0.65rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.badge-pending { background: #fff4d6; color: #7c570e; }
+.badge-preparing { background: #edf3ff; color: #2457a7; }
+.badge-delivering { background: var(--cream, #fff2e8); color: var(--accent-text, #a63a1b); }
+.badge-completed { background: #edf8f1; color: var(--success, #18794e); }
+.badge-cancelled { background: #fff1ee; color: var(--error, #b42318); }
+
+/* ============================================================
+   ORDER DETAIL / TRACKING — Stepper bar
+   ============================================================ */
+.tracking-header h1 {
+    margin: 0;
+    font-family: 'Plus Jakarta Sans', 'Nunito', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    color: var(--text);
+}
+
+.tracking-header p {
+    margin: 0.35rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.stepper {
+    display: flex;
+    justify-content: space-between;
+    margin: 2.5rem 0;
+    padding: 2rem 1.5rem;
+    border-radius: 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    position: relative;
+}
+
+.stepper::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    width: 80%;
+    height: 2px;
+    background: var(--border);
+    transform: translateY(-50%);
+    z-index: 0;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.step-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 0.85rem;
+    font-weight: 800;
+    background: var(--bg-card-alt);
+    color: var(--text-muted);
+    border: 2px solid var(--border);
+    transition: all 0.2s;
+}
+
+.step.done .step-icon {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
+.step.active .step-icon {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(201, 75, 36, 0.18);
+}
+
+.step-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-align: center;
+    max-width: 90px;
+}
+
+.step.done .step-label,
+.step.active .step-label {
+    color: var(--accent-text, #a63a1b);
+}
+
+/* Item card trong tracking */
+.tracking-item {
+    padding: 1.25rem 1.5rem;
+    border-radius: 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+}
+
+.tracking-item h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.tracking-item p {
+    margin: 0.25rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* ============================================================
+   ADMIN ORDERS — Shared table
+   ============================================================ */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 0.85rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+.admin-table th {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.admin-table tr:hover td {
+    background: var(--bg-card-alt);
+}
+
+.admin-table select {
+    width: auto;
+    padding: 0.45rem 0.6rem;
+    font-size: 0.85rem;
+}
+
+.admin-action-btn {
+    padding: 0.4rem 0.85rem;
+    border: 0;
+    border-radius: 8px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.admin-action-btn:hover {
+    background: var(--accent-dark);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 800px) {
+    .checkout-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stepper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+
+    .stepper::before {
+        display: none;
+    }
+}
+
+/* Customer order pages share the warm cream and orange Crave palette. */
+.crave-body.order-page {
+    background: var(--bg);
+    color: var(--text);
+}
+.crave-body.order-page .card { border: 1px solid var(--border); border-radius: 20px; }
+.crave-body.order-page .card h2, .crave-body.order-page .card h3, .crave-body.order-page .tracking-header h1 { font-family: 'Nunito', sans-serif; }
+.crave-body.order-page .checkout-grid { grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr); }
+.customer-page-heading { margin: 8px 0 32px; }
+.customer-page-heading h1 { margin: 0; font-size: clamp(2rem, 4vw, 3rem); }
+.customer-page-heading p { color: var(--muted); margin: 8px 0; }
+.heading-with-action { display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+.checkout-form-card { padding: clamp(20px, 4vw, 32px); }
+.checkout-form-card h2 { margin-top: 0; }
+.checkout-form-card .form-group { margin: 0 0 12px; }
+.checkout-form-card .form-group label { margin: 12px 0 4px; }
+.optional-label, .summary-hint { color: var(--muted); font-weight: 400; font-size: .85rem; }
+.order-summary { position: sticky; top: 100px; }
+.order-page .summary-row { gap: 12px; }
+.order-page .summary-row strong { white-space: nowrap; }
+.order-page .summary-row.total { color: var(--accent-text, #a63a1b); }
+.order-page .discount-row { color: var(--success, #18794e); }
+.order-page .alert { display: none; padding: 14px 16px; border-radius: 12px; }
+.order-page .alert.error { background: #fff1ee; color: var(--error, #b42318); border: 1px solid #f0c5bc; }
+.order-page .alert.success { background: #edf8f1; color: var(--success, #18794e); border: 1px solid #b8ddc8; }
+.order-page .btn-back { display: inline-block; margin: 12px 0 24px; font-weight: 600; }
+.order-page .order-loading { padding: 36px; text-align: center; color: var(--muted); }
+.order-page .order-card { gap: 20px; }
+.order-page .order-card-info { min-width: 0; overflow-wrap: anywhere; }
+.order-page .stepper { margin: 0; }
+.order-page .stepper::before { top: 50px; transform: none; }
+.order-page .step { flex: 1; }
+@media (max-width: 800px) {
+    .crave-body.order-page .checkout-grid { grid-template-columns: minmax(0, 1fr); }
+    .order-summary { position: static; }
+    .order-page .order-card { flex-wrap: wrap; }
+    .order-page .order-card-right { text-align: left; }
+    .order-page .step { flex-direction: row; gap: 16px; }
+    .order-page .step-label { max-width: none; text-align: left; }
+}
+
+/* Checkout Saved Address Picker */
+.address-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin: 12px 0 4px;
+}
+.address-label-row label {
+    margin: 0 !important;
+}
+.address-manage-link {
+    font-size: 0.82rem;
+    color: var(--accent-text, #a63a1b);
+    text-decoration: none;
+    font-weight: 600;
+}
+.address-manage-link:hover {
+    text-decoration: underline;
+}
+.saved-address-wrap {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+.saved-address-wrap .sub-label {
+    display: block;
+    margin: 0 0 6px !important;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+.saved-address-select {
+    width: 100%;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+.field-hint {
+    margin: 6px 0 0;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* --- Order Cancellation Styles --- */
+.btn-cancel-order {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 8px;
+    border: 1px solid #f0c5bc;
+    background: #fff1ee;
+    color: var(--error, #b42318);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-cancel-order:hover {
+    background: #ffe2dc;
+    border-color: var(--error, #b42318);
+    color: #941d14;
+}
+
+.btn-cancel-order:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.order-page .modal-dialog {
+    background: var(--bg-card);
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.order-page .modal-header {
+    border-bottom: 1px solid var(--border);
+}
+
+.order-page .modal-header h3 {
+    color: var(--text);
+}
+
+.order-page .modal-close {
+    color: var(--text-muted);
+}
+
+.order-page .modal-footer {
+    border-top: 1px solid var(--border);
+}
+
+.cancel-reason-option {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-card-alt);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: border-color 0.15s, background-color 0.15s;
+}
+
+.cancel-reason-option:hover {
+    border-color: var(--accent);
+}
+
+.cancel-reason-option input[type="radio"] {
+    width: auto;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+/* QR thanh toán trên trang chi tiết đơn hàng */
+.payos-payment {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.payos-payment h2 {
+    margin: 0 0 0.75rem;
+    font-size: 1.2rem;
+}
+
+.payos-hint {
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin: 0 0 1rem;
+}
+
+.payos-status {
+    margin: 0 0 1rem;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+.payos-paid .payos-status {
+    color: var(--success, #18794e);
+    margin-bottom: 0;
+}
+
+.payos-details {
+    display: grid;
+    grid-template-columns: minmax(0, 240px) minmax(0, 1fr);
+    align-items: center;
+    gap: 1.5rem;
+    margin: 1.25rem 0;
+}
+
+.payos-qr {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 240px;
+    padding: 0.75rem;
+    background: white;
+    border-radius: 12px;
+}
+
+.payos-bank-details {
+    margin: 0;
+    display: grid;
+    gap: 1rem;
+    min-width: 0;
+}
+
+.payos-bank-details dt {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+}
+
+.payos-bank-details dd {
+    margin: 0;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.payos-bank-details .payos-amount {
+    color: var(--accent-text, #a63a1b);
+    font-size: 1.5rem;
+}
+
+.payos-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.payos-payment [hidden] {
+    display: none !important;
+}
+
+@media (max-width: 600px) {
+    .payos-details {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .payos-qr-wrap {
+        justify-self: center;
+        width: min(240px, 100%);
+    }
+
+    .payos-actions > * {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+.delivery-map { height: 300px; border: 1px solid var(--line); border-radius: 12px; z-index: 0; }
+.delivery-map-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.delivery-map-actions .button { font-size: 0.85rem; padding: 8px 12px; }
+.delivery-pin { border-radius: 50%; background: #c94b24; border: 3px solid white; box-shadow: 0 1px 6px #333; }
+.delivery-store-pin { background: #18794e; }
+.delivery-search-results { display: grid; gap: 8px; max-height: 240px; overflow-y: auto; margin: 8px 0; }
+.delivery-search-result { width: 100%; text-align: left; white-space: normal; overflow-wrap: anywhere; }
